@@ -1,0 +1,20 @@
+vp0:
+  extends:
+    file: base-peer.yaml
+    service: vp
+  hostname: vp0
+  environment:
+    - CORE_PEER_ID=vp0
+  ports:
+    - "7050:7050"
+vp1:
+  extends:
+    file: base-peer.yaml
+    service: vp
+  hostname: vp1
+  environment:
+    - CORE_PEER_ID=vp1
+    - CORE_PEER_DISCOVERY_ROOTNODE=vp0:7051
+  links:
+    - vp0
+

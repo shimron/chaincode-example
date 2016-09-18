@@ -1,0 +1,19 @@
+vp: 
+    image: hyperledger/fabric-peer:latest
+    restart: unless-stopped
+    environment:
+        - CORE_VM_ENDPOINT=unix:///var/run/docker.sock
+        - CORE_PEER_ADDRESSAUTODETECT=true
+        - CORE_PEER_NETWORKID=dev
+        - CORE_LOGGING_LEVEL=debug  #critical, error, warning, notice, info, debug
+        # The following section enables pbft consensus
+        - CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=pbft  # noops, pbft
+        - CORE_PBFT_GENERAL_MODE=batch  # batch. classic and sieve will be not supported again.
+        - CORE_PBFT_GENERAL_N=4
+        - CORE_PBFT_GENERAL_BATCHSIZE=2  # only useful when in batch mode
+        - CORE_PBFT_GENERAL_TIMEOUT_REQUEST=2s
+    expose:
+        - "7051"
+        - "7052"
+        - "7053"
+    command: peer node start

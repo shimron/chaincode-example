@@ -1,0 +1,17 @@
+vp2:
+  extends:
+    file: base-peer.yaml
+    service: vp
+  hostname: vp2
+  environment:
+    - CORE_PEER_ID=vp2
+    - CORE_PEER_DISCOVERY_ROOTNODE=172.17.0.2:7051
+vp3:
+  extends:
+    file: base-peer.yaml
+    service: vp
+  hostname: vp3
+  environment:
+    - CORE_PEER_ID=vp3
+    - CORE_PEER_DISCOVERY_ROOTNODE=172.17.0.2:7051
+    - CORE_PEER_VALIDATOR_ENABLED=false

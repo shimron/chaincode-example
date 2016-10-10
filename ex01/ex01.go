@@ -46,7 +46,8 @@ func (cc *SimpleChainCode) Invoke(stub shim.ChaincodeStubInterface, function str
 	}
 	fmt.Printf("Aval=%d\n", Aval)
 	err = stub.PutState(A, []byte(args[1]))
-	return nil, err
+	return nil, errors.New("simulate fail")
+	//return nil, err
 }
 
 func (cc *SimpleChainCode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {

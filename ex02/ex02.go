@@ -73,6 +73,14 @@ type SimpleChainCode struct {
 }
 
 func (cc *SimpleChainCode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+	cid := nextCID(stub)
+	c1 := Campany{CID: cid, Name: "test_c1", CreateTime: time.Now().Nanosecond(), FundInitial: 10000, FundBalance: 2000, CType: 1}
+	cByte, _ := json.Marshal(c1)
+	stub.PutState("c_"+strconv.Itoa(cid), cByte)
+	uid := nextUID(stub)
+	u1 := User{UID: uid, Name: "test_u1", PWD: "111111", CreateTime: time.Now().Nanosecond()}
+	uByte, _ := json.Marshal(u1)
+	stub.PutState("u_"+strconv.Itoa(uid), uByte)
 	return nil, nil
 }
 
@@ -95,6 +103,7 @@ func (cc *SimpleChainCode) Invoke(stub shim.ChaincodeStubInterface, function str
 	}
 }
 
+//Query implements the
 func (cc *SimpleChainCode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 
 	switch function {

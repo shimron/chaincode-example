@@ -74,13 +74,17 @@ type SimpleChainCode struct {
 
 func (cc *SimpleChainCode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	cid := nextCID(stub)
-	c1 := Campany{CID: cid, Name: "test_c1", CreateTime: time.Now().Nanosecond(), FundInitial: 10000, FundBalance: 2000, CType: 1}
+	c1 := Campany{CID: cid, Name: "test_c1", CreateTime: time.Now().Nanosecond(), FundInitial: 10000, FundBalance: 10000, CType: 1}
 	cByte, _ := json.Marshal(c1)
 	stub.PutState("c_"+strconv.Itoa(cid), cByte)
 	uid := nextUID(stub)
 	u1 := User{UID: uid, Name: "test_u1", PWD: "111111", CreateTime: time.Now().Nanosecond()}
 	uByte, _ := json.Marshal(u1)
 	stub.PutState("u_"+strconv.Itoa(uid), uByte)
+	u2id := nextUID(stub)
+	u2 := User{UID: u2id, Name: "test_u2", PWD: "2222", CreateTime: time.Now().Nanosecond()}
+	u2Byte, _ := json.Marshal(u2)
+	stub.PutState("u_"+strconv.Itoa(u2id), u2Byte)
 	return nil, nil
 }
 

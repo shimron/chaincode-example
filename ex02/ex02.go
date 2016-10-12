@@ -423,6 +423,17 @@ func (cc *SimpleChainCode) auditorAuditTransaction(stub shim.ChaincodeStubInterf
 	tx.AuditorAuditRemark = args[3]
 	tx.AuditorAuditTime = time.Now().Nanosecond()
 	tx.updateStatus()
+	if tx.Status == 1 {
+		_, err := cc.executeTransaction(stub, tx.CID, tx.FundAmount, tx.ToUID)
+		if err != nil {
+			return nil, fmt.Errorf("fail to executeTransaction:%v", err)
+		}
+	} else if tx.Status == -1 {
+		_, err := cc.revertTransaction(stub, tx.CID, tx.FundAmount)
+		if err != nil {
+			return nil, fmt.Errorf("fail to revertTransaction:%v", err)
+		}
+	}
 	newTXByte, err := json.Marshal(tx)
 	if err != nil {
 		return nil, fmt.Errorf("fail to marshal transaction date:%v", err)

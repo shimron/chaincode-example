@@ -325,6 +325,9 @@ func (cc *SimpleChainCode) transfer(stub shim.ChaincodeStubInterface, args []str
 	cp.FundBalance = cp.FundBalance - fundAmount
 	newCByte, err := json.Marshal(cp)
 	err = stub.PutState(cKey, newCByte)
+	if err != nil {
+		return nil, fmt.Errorf("fail to put company state:%v", err)
+	}
 	//create transaction record
 	cid, _ := strconv.Atoi(args[0])
 	fromUID, _ := strconv.Atoi(args[1])
